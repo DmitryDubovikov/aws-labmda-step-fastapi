@@ -18,8 +18,10 @@ async def create_order(order: dict):
     Создает заказ и запускает его обработку через Step Functions.
     """
     try:
+        input_data = {"body": json.dumps(order)}
+
         response = client.start_execution(
-            stateMachineArn=STATE_MACHINE_ARN, input=json.dumps(order)  # Передаем данные заказа в виде JSON
+            stateMachineArn=STATE_MACHINE_ARN, input=json.dumps(input_data)  # Передаем данные заказа в виде JSON
         )
         return {"executionArn": response["executionArn"]}
     except Exception as e:

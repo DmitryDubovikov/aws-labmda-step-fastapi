@@ -5,21 +5,29 @@
     "CheckInventory": {
       "Type": "Task",
       "Resource": "arn:aws:lambda:us-east-1:000000000000:function:check_inventory",
+      "InputPath": "$",
+      "ResultPath": "$.inventoryResult",
       "Next": "CalculateShipping"
     },
     "CalculateShipping": {
       "Type": "Task",
       "Resource": "arn:aws:lambda:us-east-1:000000000000:function:calculate_shipping",
+      "InputPath": "$.inventoryResult.body",
+      "ResultPath": "$.shippingResult",
       "Next": "ProcessPayment"
     },
     "ProcessPayment": {
       "Type": "Task",
       "Resource": "arn:aws:lambda:us-east-1:000000000000:function:process_payment",
+      "InputPath": "$.shippingResult.body",
+      "ResultPath": "$.paymentResult",
       "Next": "SendNotification"
     },
     "SendNotification": {
       "Type": "Task",
       "Resource": "arn:aws:lambda:us-east-1:000000000000:function:send_notification",
+      "InputPath": "$.paymentResult.body",
+      "ResultPath": "$.notificationResult",
       "End": true
     }
   }

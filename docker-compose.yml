@@ -27,3 +27,6 @@ services:
     volumes:
       - ./lambda:/lambda
       - ./stepfunctions:/stepfunctions
+      - ./setup_aws.sh:/setup_aws.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+

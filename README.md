@@ -25,19 +25,25 @@ This project demonstrates an order processing system using AWS Step Functions an
 
 ## Local Setup:
 
-1. **Build the project:**
+1. **Zip lambdas:**
+    ```shell
+    chmod +x zip_lambdas.sh && ./zip_lambdas.sh
+    ```
+
+2. **Build the project:**
    ```shell
    docker compose build
     ```
-2. **Start the services:**
+3. **Start the services:**
     ```shell
     docker compose up -d
     ```
-3. **Run the script to create the state machine:**
+4. **Run the script to create the state machine and lambdas:**
     ```shell
-    docker exec -it localstack_main bash -c "cd /stepfunctions && chmod +x create_state_machine.sh && ./create_state_machine.sh && exit"
+    docker exec -it localstack_main bash -c "chmod +x /setup_aws.sh && /setup_aws.sh && exit"
     ```
-4. **Swagger UI:**
+   
+5. **Swagger UI:**
 http://localhost:8000/docs
 
     example order:
@@ -50,7 +56,7 @@ http://localhost:8000/docs
       "customer_email": "customer@example.com"
     }
     ```
-5. **Or curl:**
+6. **Or curl:**
     ```shell
     
     curl -X 'POST' \

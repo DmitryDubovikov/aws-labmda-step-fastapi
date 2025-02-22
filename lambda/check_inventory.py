@@ -1,14 +1,21 @@
 import json
+import logging
 
+logging.basicConfig(level=logging.INFO)
 
 def lambda_handler(event, context):
     """
-    Проверяет, есть ли товар в наличии.
+    Checks inventory for the product.
     """
-    order = json.loads(event["body"])
-    product_id = order["product_id"]
-
-    # Псевдопроверка
-    if product_id == "out_of_stock":
-        return {"statusCode": 400, "body": json.dumps({"message": "Product out of stock"})}
-    return {"statusCode": 200, "body": json.dumps({"message": "Product in stock"})}
+    try:
+        logging.info(f"Inventory checked for order: {event}")
+        return {
+            "statusCode": 200,
+            "body": json.dumps(event)  # Возвращаем заказ без изменений
+        }
+    except Exception as e:
+        logging.error(f"Error in check_inventory: {str(e)}")
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
+        }
