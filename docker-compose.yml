@@ -1,0 +1,28 @@
+services:
+  fastapi:
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - aws-localstack
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_REGION=us-east-1
+    volumes:
+      - ./app:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
+
+  aws-localstack:
+    image: localstack/localstack
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - SERVICES=lambda,stepfunctions,events
+    ports:
+      - "4566:4566"
+      - "4510:4510"
+    volumes:
+      - ./lambda:/lambda
+      - ./stepfunctions:/stepfunctions
