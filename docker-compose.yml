@@ -15,6 +15,7 @@ services:
 
   aws-localstack:
     image: localstack/localstack
+    container_name: localstack_main
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - AWS_ACCESS_KEY_ID=test
